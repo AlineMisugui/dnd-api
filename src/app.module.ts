@@ -1,10 +1,13 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
-import { BooksModule } from './books/books.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LoggerMiddleware } from './common/middlewares/logger.middleware';
-import { ProductsModule } from './products/products.module';
-import { ProductPriceMiddleware } from './products/middlewares/productPrice.middleware';
 import { AuthModule } from './auth/auth.module';
+import { BooksModule } from './books/books.module';
+import { LoggingInterceptor } from './common/interceptors/response-time-logger.interceptor';
+import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { ProductPriceMiddleware } from './products/middlewares/productPrice.middleware';
+import { ProductsModule } from './products/products.module';
+import { ResponseTimeLoggerModule } from './response-time-logger/response-time-logger.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -15,9 +18,15 @@ import { UsersModule } from './users/users.module';
     ProductsModule,
     AuthModule,
     UsersModule,
+    ResponseTimeLoggerModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
 
 export class AppModule implements NestModule {
