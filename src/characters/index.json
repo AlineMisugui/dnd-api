@@ -1,0 +1,136 @@
+{
+    "starting_equipment_options": [
+        {
+            "desc": "(a) a martial weapon and a shield or (b) two martial weapons",
+            "choose": 1,
+            "type": "equipment",
+            "from": {
+                "option_set_type": "options_array",
+                "options": [
+                    {
+                        "option_type": "multiple",
+                        "items": [
+                            {
+                                "option_type": "choice",
+                                "choice": {
+                                    "desc": "a martial weapon",
+                                    "choose": 1,
+                                    "type": "equipment",
+                                    "from": {
+                                        "option_set_type": "equipment_category",
+                                        "equipment_category": {
+                                            "name": "Martial Weapons",
+                                            "index": "martial-weapons",
+                                            "url": "/api/equipment-categories/martial-weapons"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "option_type": "counted_reference",
+                                "count": 1,
+                                "of": {
+                                    "index": "shield",
+                                    "name": "Shield",
+                                    "url": "/api/equipment/shield"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "option_type": "choice",
+                        "choice": {
+                            "desc": "two martial weapons",
+                            "choose": 2,
+                            "type": "equipment",
+                            "from": {
+                                "option_set_type": "equipment_category",
+                                "equipment_category": {
+                                    "index": "martial-weapons",
+                                    "name": "Martial Weapons",
+                                    "url": "/api/equipment-categories/martial-weapons"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "desc": "(a) five javelins or (b) any simple melee weapon",
+            "choose": 1,
+            "type": "equipment",
+            "from": {
+                "option_set_type": "options_array",
+                "options": [
+                    {
+                        "option_type": "counted_reference",
+                        "count": 5,
+                        "of": {
+                            "index": "javelin",
+                            "name": "Javelin",
+                            "url": "/api/equipment/javelin"
+                        }
+                    },
+                    {
+                        "option_type": "choice",
+                        "choice": {
+                            "desc": "any simple weapon",
+                            "choose": 1,
+                            "type": "equipment",
+                            "from": {
+                                "option_set_type": "equipment_category",
+                                "equipment_category": {
+                                    "index": "simple-weapons",
+                                    "name": "Simple Weapons",
+                                    "url": "/api/equipment-categories/simple-weapons"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "desc": "(a) a priest’s pack or (b) an explorer’s pack",
+            "choose": 1,
+            "type": "equipment",
+            "from": {
+                "option_set_type": "options_array",
+                "options": [
+                    {
+                        "option_type": "counted_reference",
+                        "count": 1,
+                        "of": {
+                            "index": "priests-pack",
+                            "name": "Priest's Pack",
+                            "url": "/api/equipment/priests-pack"
+                        }
+                    },
+                    {
+                        "option_type": "counted_reference",
+                        "count": 1,
+                        "of": {
+                            "index": "explorers-pack",
+                            "name": "Explorer's Pack",
+                            "url": "/api/equipment/explorers-pack"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "desc": "holy symbol",
+            "choose": 1,
+            "type": "equipment",
+            "from": {
+                "option_set_type": "equipment_category",
+                "equipment_category": {
+                    "index": "holy-symbols",
+                    "name": "Holy Symbols",
+                    "url": "/api/equipment-categories/holy-symbols"
+                }
+            }
+        }
+    ]
+}

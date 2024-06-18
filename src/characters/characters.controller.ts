@@ -5,8 +5,7 @@ import { CreateCharacterDto } from './dtos/create-character.dto';
 @Controller('characters')
 export class CharactersController {
     constructor(private readonly characterService: CharactersService) { }
-
-    @Post()
+    @Post('create')
     async createCharacter(@Body() character: CreateCharacterDto) {
         try {
             return await this.characterService.createCharacter(character);
