@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Character } from './schema/character.schema';
+import { Character, Equipament } from './schema/character.schema';
 import { Model } from 'mongoose';
 import { CreateCharacterDto } from './dtos/create-character.dto';
 import { Equipment } from './class/equipment.class';
@@ -42,6 +42,7 @@ export class CharactersService {
         //spells
 
         const equipmentChoices = new Array<EquipmentChoice>;
+        const startEquipments = new Array<Equipment>;
 
         if (classRes.status === 200) {
             for (let equipment of classCharacter.starting_equipment_options) {
@@ -58,14 +59,14 @@ export class CharactersService {
                                 if (choice.option_type == 'choice') {
                                     choices.choices.push(new Equipment(choice.choice.from.equipment_category.index, '', choice.choice.choose));
                                 } else if (choice.option_type == 'counted_reference') {
-                                    choices.choices.push(new Equipment(choice.of.index, '', choice.count))
+                                    choices.choices.push(new Equipment(choice.of.index, '', choice.count));
                                 }
                             }
                             equipmentChoices.push(choices);
                         } else if (option.option_type == 'choice') {
                             const choice = option;
                             const choices = new EquipmentChoice();
-                            choices.choices.push(new Equipment(choice.choice.from.equipment_category.index, '', choice.choose));
+                            choices.choices.push(new Equipment(choice.choice.from.equipment_category.index, '', choice.choice.choose));
                             equipmentChoices.push(choices);
                         } else if (option.option_type == 'counted_reference') {
                             const choice = option;
@@ -76,12 +77,15 @@ export class CharactersService {
                     }
                 }
             }
+
+            for (let start of classCharacter.starting_equipment) {
+                const equipment = new Equipment(start.equipment.index, '', start.quantity)
+                startEquipments.push(equipment);
+            }
         }
 
-        console.log(equipmentChoices)
-
-
-
-
+        // console.log(equipmentChoices);
+        console.log('-------- start --------');
+        console.log(startEquipments);
     }
 }
