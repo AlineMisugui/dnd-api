@@ -31,7 +31,7 @@ export class CreateCharacterDto {
     feats: string
 
     @IsArray()
-    equipament: EquipamentDto[];
+    equipament: Array<EquipamentDto[]>;
 
     @IsArray()
     @IsOptional()

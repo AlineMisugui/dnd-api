@@ -41,15 +41,16 @@ export class CharactersService {
 
         //spells
 
-        const equipmentChoices = new Array<EquipmentChoice>;
-        const startEquipments = new Array<Equipment>;
+        let equipmentChoices = new Array<EquipmentChoice>;
+        let startEquipments = new Array<Equipment>;
 
+        //coletando equipamentos da classe e colocando em um array --------------------------------------------------
         if (classRes.status === 200) {
             for (let equipment of classCharacter.starting_equipment_options) {
                 if (equipment.from.option_set_type == 'equipment_category') {
-                    const choice = equipment.from;
+                    const choice = equipment;
                     const choices = new EquipmentChoice();
-                    choices.choices.push(new Equipment(choice.equipment_category.index, '', choice.choose));
+                    choices.choices.push(new Equipment(choice.from.equipment_category.index, '', choice.choose));
                     equipmentChoices.push(choices);
                 } else if (equipment.from.option_set_type == 'options_array') {
                     for (let option of equipment.from.options) {
@@ -83,15 +84,22 @@ export class CharactersService {
                 startEquipments.push(equipment);
             }
         }
+        //----------------------------------------------------------------------------------------------------------
 
-        // validando o item padrão da classe
+
+
+
+        // validando o item padrão da classe ------------------------------------------------------------------------
         let foundStartEquipment = new Array();
         for (let equipment of character.equipament) {
-            const equipmentIndex = startEquipments.findIndex((el) => { return el.index === equipment.name });
-            if (equipmentIndex !== -1) {
-                console.log(true)
-                if (startEquipments[equipmentIndex].count == equipment.amount) {
-                    foundStartEquipment.push(true);
+            if (equipment.length === 1) {
+                const equipmentItem = equipment[0];
+                const equipmentIndex = startEquipments.findIndex((el) => { return el.index === equipmentItem.name });
+                if (equipmentIndex !== -1) {
+                    console.log(true)
+                    if (startEquipments[equipmentIndex].count == equipmentItem.amount) {
+                        foundStartEquipment.push(true);
+                    }
                 }
             }
         }
@@ -100,7 +108,57 @@ export class CharactersService {
             console.log('equipamento padrão validado');
         } else {
             console.log('Não tem equipamento padrão');
-            return new HttpException('Equipamento padrão inválido', HttpStatus.BAD_REQUEST);
+            return new HttpException('Equipamento(s) padrão(ões) inválido(s)', HttpStatus.BAD_REQUEST);
+        }
+        //---------------------------------------------------------------------------------------------------------
+
+
+
+        //validando itens escolhidos ------------------------------------------------------------------------------
+        const startEquipmentChoice = new EquipmentChoice();
+        startEquipmentChoice.choices = startEquipments;
+        equipmentChoices = equipmentChoices.concat(startEquipmentChoice);
+        let maxItens = classCharacter.starting_equipment_options.length + startEquipments.length;
+        if (character.equipament.length === maxItens) {
+            for (let item of character.equipament) {
+                let validatedEquipments = new Array<Number>;
+                for (let [index, startEquipment] of equipmentChoices.entries()) {
+                    // startEquipment.choices.forEach((elItem) => {
+                    //     const index = item.findIndex((el) => { return el.name === elItem.index });
+                    //     if (index !== -1) {
+                    //         if (!validatedEquipments.includes(index)) {
+                    //             validatedEquipments.push(index);
+                    //             if (item[index].amount !== elItem.count) {
+                    //                 console.log('entrou aqui')
+                    //                 return new HttpException(`Item ${item[index].name} com quantidade inicial inválida`, HttpStatus.BAD_REQUEST);
+                    //             }
+                    //         } else {
+                    //             return new HttpException('Item duplo com opções duplicadas', HttpStatus.BAD_REQUEST);
+                    //         }
+                    //     }
+                    // })
+
+                    for (let elItem of startEquipment.choices) {
+                        const index = item.findIndex((el) => { return el.name === elItem.index });
+                        if (index !== -1) {
+                            if (!validatedEquipments.includes(index)) {
+                                validatedEquipments.push(index);
+                                if (item[index].amount !== elItem.count) {
+                                    console.log('entrou aqui')
+                                    return new HttpException(`Item ${item[index].name} com quantidade inicial inválida`, HttpStatus.BAD_REQUEST);
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                if (validatedEquipments.length != item.length) {
+                    return new HttpException(`Um ou mais equipamentos são inválidos para a classe ${character.class}`, HttpStatus.BAD_REQUEST);
+                }
+            }
+        } else {
+            return new HttpException('Quantidade de equipamentos inválidos', HttpStatus.BAD_REQUEST);
         }
         //----------------------------------------------------------------------
 
