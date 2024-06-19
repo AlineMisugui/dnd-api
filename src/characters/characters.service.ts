@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Character, Equipament } from './schema/character.schema';
 import { Model } from 'mongoose';
@@ -84,8 +84,37 @@ export class CharactersService {
             }
         }
 
+        // validando o item padrão da classe
+        let foundStartEquipment = new Array();
+        for (let equipment of character.equipament) {
+            const equipmentIndex = startEquipments.findIndex((el) => { return el.index === equipment.name });
+            if (equipmentIndex !== -1) {
+                console.log(true)
+                if (startEquipments[equipmentIndex].count == equipment.amount) {
+                    foundStartEquipment.push(true);
+                }
+            }
+        }
+
+        if (foundStartEquipment.length === startEquipments.length) {
+            console.log('equipamento padrão validado');
+        } else {
+            console.log('Não tem equipamento padrão');
+            return new HttpException('Equipamento padrão inválido', HttpStatus.BAD_REQUEST);
+        }
+        //----------------------------------------------------------------------
+
+
+
+
+
+
+
+
         // console.log(equipmentChoices);
+        // for (let c of equipmentChoices) {
+        //     console.log(c)
+        // }
         console.log('-------- start --------');
-        console.log(startEquipments);
     }
 }
