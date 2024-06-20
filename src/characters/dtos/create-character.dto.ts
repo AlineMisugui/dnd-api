@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, Min } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, Max, Min } from "class-validator";
 import { AbilityScoreDto } from "./ability-score.dto";
 import { EquipamentDto } from "./equipament.dto";
 
@@ -24,11 +24,13 @@ export class CreateCharacterDto {
 
     @IsNumber()
     @Min(1)
+    @Max(20)
     level: number
 
-    @IsString()
+    @IsArray()
     @IsNotEmpty()
-    feats: string
+    @IsOptional()
+    feats?: Array<string>
 
     @IsArray()
     equipament: Array<EquipamentDto[]>;

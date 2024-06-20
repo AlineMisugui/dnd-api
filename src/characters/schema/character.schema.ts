@@ -64,10 +64,11 @@ export class Character {
     @Prop()
     level: number
 
-    @IsString()
+    @IsArray()
     @IsNotEmpty()
+    @IsOptional()
     @Prop()
-    feats: string
+    feats: Array<string>
 
     @IsObject()
     @Prop()

@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateCharacterDto } from './dtos/create-character.dto';
 import { Equipment } from './class/equipment.class';
 import { EquipmentChoice } from './class/equipment-choice.class';
+const fs = require('fs');
 
 @Injectable()
 export class CharactersService {
@@ -34,8 +35,28 @@ export class CharactersService {
         const classRes = await fetch(`https://www.dnd5eapi.co/api/classes/${character.class}`, requestOptions);
         const classCharacter = await classRes.json();
 
-        const featsRes = await fetch(`https://www.dnd5eapi.co/api/feats/${character.feats}`, requestOptions);
-        const feats = await featsRes.json();
+        // const featsRes = await fetch(`https://www.dnd5eapi.co/api/feats/${character.feats}`, requestOptions);
+        // const feats = await featsRes.json();
+        const featsJSON = await fs.readFileSync('./src/characters/feats.json', 'utf8');
+        const feats: any = await JSON.parse(featsJSON);
+
+
+        const abilityScoreImprovements = Math.floor(character.level === 19 ? 20 : character.level / 4);
+        let remaingAbilityScoreImprovements = abilityScoreImprovements;
+
+
+        if (character.feats !== undefined) {
+            if (character.feats.length < 6 && character.feats.length <= remaingAbilityScoreImprovements) {
+                remaingAbilityScoreImprovements = remaingAbilityScoreImprovements - character.feats.length;
+                for (let feat of character.feats) {
+                    if (feats.Feats.findIndex((el: any) => { return el.index == feat }) === -1) {
+                        return new HttpException(`A feat ${feat} é inválida para esta versão`, HttpStatus.BAD_REQUEST);
+                    }
+                }
+            } else {
+                return new HttpException('Número de feats excedido para o level', HttpStatus.BAD_REQUEST)
+            }
+        }
 
         //equipament
 
@@ -43,6 +64,25 @@ export class CharactersService {
 
         let equipmentChoices = new Array<EquipmentChoice>;
         let startEquipments = new Array<Equipment>;
+
+        //Validando feats, abilit(yscore e level
+
+
+        //Validade o alignment do personagem
+        if (alignmentRes.status !== 200) {
+            return new HttpException('Alignment do personagem está inválido', HttpStatus.BAD_REQUEST);
+        }
+
+        //Validando se a raça existe
+        if (raceRes.status !== 200) {
+            return new HttpException('Raça do personagem inválida', HttpStatus.BAD_REQUEST);
+
+        }
+
+        //Validando se a classe existe
+        if (classRes.status !== 200) {
+            return new HttpException('Classe de personagem inválida', HttpStatus.BAD_REQUEST);
+        }
 
         //coletando equipamentos da classe e colocando em um array --------------------------------------------------
         if (classRes.status === 200) {
