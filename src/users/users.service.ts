@@ -1,6 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto/createUser.dto';
+import { UpdateUserDto } from './dto/updateUser.dto';
 
 // This should be a real class/interface representing a user entity
 export type User = any;
