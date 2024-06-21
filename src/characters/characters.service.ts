@@ -22,27 +22,28 @@ export class CharactersService {
             headers: myHeaders
         };
 
+        const resArray = [];
+        const dataArray = [];
+
         const name = character.name;
 
         const level = character.level;
 
-        const alignmentRes = await fetch(`https://www.dnd5eapi.co/api/alignments/${character.alignment}`, requestOptions);
-        const alignment = await alignmentRes.json();
+        const [alignmentRes, raceRes, classRes, featsJSON, spellsRes] = await Promise.all([
+            fetch(`https://www.dnd5eapi.co/api/alignments/${character.alignment}`, requestOptions),
+            fetch(`https://www.dnd5eapi.co/api/races/${character.race}`, requestOptions),
+            fetch(`https://www.dnd5eapi.co/api/classes/${character.class}`, requestOptions),
+            fs.readFileSync('./src/characters/feats.json', 'utf8'),
+            fetch(`https://www.dnd5eapi.co/api/classes/${character.class}/spells`, requestOptions)
+        ])
 
-        //ability
-
-        const raceRes = await fetch(`https://www.dnd5eapi.co/api/races/${character.race}`, requestOptions);
-        const race = await raceRes.json();
-
-        const classRes = await fetch(`https://www.dnd5eapi.co/api/classes/${character.class}`, requestOptions);
-        const classCharacter = await classRes.json();
-
-        const featsJSON = await fs.readFileSync('./src/characters/feats.json', 'utf8');
-        const feats: any = await JSON.parse(featsJSON);
-
-        const spellsRes = await fetch(`https://www.dnd5eapi.co/api/classes/${character.class}/spells`, requestOptions);
-        const spells = await spellsRes.json();
-
+        const [alignment, race, classCharacter, feats, spells] = await Promise.all([
+            alignmentRes.json(),
+            raceRes.json(),
+            classRes.json(),
+            JSON.parse(featsJSON),
+            spellsRes.json()
+        ])
 
         const abilityScoreImprovements = Math.floor(character.level === 19 ? 20 : character.level / 4);
         let remaingAbilityScoreImprovements = abilityScoreImprovements;
