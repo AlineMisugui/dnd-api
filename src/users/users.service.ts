@@ -1,102 +1,89 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
-
-// This should be a real class/interface representing a user entity
-export type User = any;
+import { User, UserDocument, UserWithoutPassword } from './user.schema';
 
 @Injectable()
 export class UsersService {
-    private readonly users: User[] = [
-        {
-            userId: 1,
-            username: 'john',
-            password: 'changeme',
-            email: 'john@example.com',
-            name: 'John Doe'
-        },
-        {
-            userId: 2,
-            username: 'maria',
-            password: 'guess',
-            email: 'maria@example.com',
-            name: 'Maria Doe'
-        },
-    ];
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-    async create(createUserDto: CreateUserDto): Promise<User> {
-        const existingUser = this.users.find(user => user.username === createUserDto.username || user.email === createUserDto.email);
-        if (existingUser) {
-            throw new BadRequestException('User already exists');
-        }
+  async create(createUserDto: CreateUserDto): Promise<UserWithoutPassword> {
+    const existingUser = await this.userModel.findOne({
+      $or: [{ username: createUserDto.username }, { email: createUserDto.email }],
+    });
 
-        const salt = await bcrypt.genSalt();
-        const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
-
-        const newUser = {
-            userId: this.users.length + 1,
-            ...createUserDto,
-            password: hashedPassword,
-        };
-
-        this.users.push(newUser);
-        return this.omitPassword(newUser);
+    if (existingUser) {
+      throw new BadRequestException('User already exists');
     }
 
-    async findAll(): Promise<User[]> {
-        return this.users.map(user => this.omitPassword(user));
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+
+    const createdUser = new this.userModel({
+      ...createUserDto,
+      password: hashedPassword,
+    });
+
+    const newUser = await createdUser.save();
+    return this.omitPassword(newUser.toObject());
+  }
+
+  async findAll(): Promise<UserWithoutPassword[]> {
+    const users = await this.userModel.find().exec();
+    return users.map(user => this.omitPassword(user.toObject()));
+  }
+
+  async findOneById(id: string): Promise<UserWithoutPassword | undefined> {
+    const user = await this.userModel.findById(id).exec();
+    return this.omitPassword(user?.toObject());
+  }
+
+  async findOne(username: string): Promise<UserWithoutPassword | undefined> {
+    const user = await this.userModel.findOne({ username }).exec();
+    return user ? this.omitPassword(user.toObject()) : undefined;
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<UserWithoutPassword | undefined> {
+    const user = await this.userModel.findById(id).exec();
+
+    if (!user) {
+      throw new BadRequestException('User not found');
     }
 
-    async findOneById(userId: number): Promise<User | undefined> {
-        const user = this.users.find(user => user.userId === userId);
-        return this.omitPassword(user);
+    const existingUser = await this.userModel.findOne({
+      $or: [{ username: updateUserDto.username }, { email: updateUserDto.email }],
+      _id: { $ne: id },
+    });
+
+    if (existingUser) {
+      throw new BadRequestException('Username or email already in use');
     }
 
-    async findOne(username: string): Promise<User | undefined> {
-        const user = this.users.find(user => user.username === username);
-        return user ? this.omitPassword(user) : undefined;
+    if (updateUserDto.password) {
+      const salt = await bcrypt.genSalt();
+      updateUserDto.password = await bcrypt.hash(updateUserDto.password, salt);
     }
 
-    async update(userId: number, updateUserDto: UpdateUserDto): Promise<User | undefined> {
-        const userIndex = this.users.findIndex(user => user.userId === userId);
-        if (userIndex === -1) {
-            throw new BadRequestException('User not found');
-        }
+    const updatedUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true }).exec();
+    return this.omitPassword(updatedUser?.toObject());
+  }
 
-        const existingUser = this.users.find(user => (user.username === updateUserDto.username || user.email === updateUserDto.email) && user.userId !== userId);
-        if (existingUser) {
-            throw new BadRequestException('Username or email already in use');
-        }
+  async remove(id: string): Promise<void> {
+    const user = await this.userModel.findByIdAndDelete(id).exec();
 
-        const updatedUser = {
-            ...this.users[userIndex],
-            ...updateUserDto,
-        };
-
-        if (updateUserDto.password) {
-            const salt = await bcrypt.genSalt();
-            updatedUser.password = await bcrypt.hash(updateUserDto.password, salt);
-        }
-
-        this.users[userIndex] = updatedUser;
-        return this.omitPassword(updatedUser);
+    if (!user) {
+      throw new BadRequestException('User not found');
     }
+  }
 
-    async remove(userId: number): Promise<void> {
-        const userIndex = this.users.findIndex(user => user.userId === userId);
-        if (userIndex === -1) {
-            throw new BadRequestException('User not found');
-        }
-        this.users.splice(userIndex, 1);
+  private omitPassword(user: User | undefined): UserWithoutPassword | undefined {
+    if (!user) {
+      return undefined;
     }
-
-    private omitPassword(user: User | undefined): User | undefined {
-        if (!user) {
-          return undefined;
-        }
-        const { password, ...result } = user;
-        return result;
-      }
-      
+    const { password, ...result } = user;
+    return result as UserWithoutPassword;
+  }
 }

@@ -16,7 +16,7 @@ import { UsersModule } from './users/users.module';
     MongooseModule.forRoot('mongodb://0.0.0.0/books-nest'),
     BooksModule,
     ProductsModule,
-    AuthModule,
+    //AuthModule,
     UsersModule,
     ResponseTimeLoggerModule,
   ],
