@@ -1,21 +1,12 @@
-import { IsNumber } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class AbilityScoreDto {
-    @IsNumber()
-    cha: number;
 
-    @IsNumber()
-    con: number;
+    @IsString()
+    @IsNotEmpty()
+    index: string;
 
-    @IsNumber()
-    dex: number;
-
-    @IsNumber()
-    int: number;
-
-    @IsNumber()
-    str: number;
-
-    @IsNumber()
-    wis: number;
+    @IsString()
+    @IsNotEmpty()
+    value: number;
 }

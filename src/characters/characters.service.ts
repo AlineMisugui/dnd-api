@@ -5,6 +5,8 @@ import { Model } from 'mongoose';
 import { CreateCharacterDto } from './dtos/create-character.dto';
 import { Equipment } from './class/equipment.class';
 import { EquipmentChoice } from './class/equipment-choice.class';
+import { mainModifiers } from './main-modifiers/main-modifiers';
+import { abilityScores } from './ability-scores/ability-scores';
 const fs = require('fs');
 
 @Injectable()
@@ -35,10 +37,11 @@ export class CharactersService {
         const classRes = await fetch(`https://www.dnd5eapi.co/api/classes/${character.class}`, requestOptions);
         const classCharacter = await classRes.json();
 
-        // const featsRes = await fetch(`https://www.dnd5eapi.co/api/feats/${character.feats}`, requestOptions);
-        // const feats = await featsRes.json();
         const featsJSON = await fs.readFileSync('./src/characters/feats.json', 'utf8');
         const feats: any = await JSON.parse(featsJSON);
+
+        const spellsRes = await fetch(`https://www.dnd5eapi.co/api/classes/${character.class}/spells`, requestOptions);
+        const spells = await spellsRes.json();
 
 
         const abilityScoreImprovements = Math.floor(character.level === 19 ? 20 : character.level / 4);
@@ -58,15 +61,9 @@ export class CharactersService {
             }
         }
 
-        //equipament
-
-        //spells
 
         let equipmentChoices = new Array<EquipmentChoice>;
         let startEquipments = new Array<Equipment>;
-
-        //Validando feats, abilit(yscore e level
-
 
         //Validade o alignment do personagem
         if (alignmentRes.status !== 200) {
@@ -163,21 +160,6 @@ export class CharactersService {
             for (let item of character.equipament) {
                 let validatedEquipments = new Array<Number>;
                 for (let [index, startEquipment] of equipmentChoices.entries()) {
-                    // startEquipment.choices.forEach((elItem) => {
-                    //     const index = item.findIndex((el) => { return el.name === elItem.index });
-                    //     if (index !== -1) {
-                    //         if (!validatedEquipments.includes(index)) {
-                    //             validatedEquipments.push(index);
-                    //             if (item[index].amount !== elItem.count) {
-                    //                 console.log('entrou aqui')
-                    //                 return new HttpException(`Item ${item[index].name} com quantidade inicial inválida`, HttpStatus.BAD_REQUEST);
-                    //             }
-                    //         } else {
-                    //             return new HttpException('Item duplo com opções duplicadas', HttpStatus.BAD_REQUEST);
-                    //         }
-                    //     }
-                    // })
-
                     for (let elItem of startEquipment.choices) {
                         const index = item.findIndex((el) => { return el.name === elItem.index });
                         if (index !== -1) {
@@ -202,7 +184,57 @@ export class CharactersService {
         }
         //----------------------------------------------------------------------
 
+        //validando scores
+        let characterAbilityCopy = [...character.abilityScore];
 
+        if (characterAbilityCopy.length !== abilityScores.length) {
+            return new HttpException('Habilidades inválidas', HttpStatus.BAD_REQUEST);
+        }
+
+        for (let i = 0; i < abilityScores.length; i++) {
+            if (characterAbilityCopy[0] === undefined) {
+                return new HttpException('Habilidades inválidas', HttpStatus.BAD_REQUEST);
+            }
+
+            if (abilityScores.findIndex((el) => { return el === characterAbilityCopy[0].index }) === -1) {
+                return new HttpException('Habilidades inválidas', HttpStatus.BAD_REQUEST);
+            }
+
+            if (characterAbilityCopy[0].value > 20 || characterAbilityCopy[0].value < 8) {
+                return new HttpException('Valor de habilidade inválido', HttpStatus.BAD_REQUEST)
+            }
+
+            characterAbilityCopy.shift();
+        }
+
+        //validando spells--------------------------------------------------------
+        if (spells.count == 0) {
+            if (character.spells.length != 0 || character.spells !== null || character.spells !== undefined) {
+                return new HttpException(`A classe ${character.class} não tem magias`, HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            const modifier = mainModifiers[character.class];
+            const modify = character.abilityScore.find((el) => { return el.index == modifier });
+            let spellsAmount = (modify.value - 10) != 0 ? Math.floor((modify.value - 10) / 2) : 0;
+            spellsAmount += character.level;
+
+            if (spellsAmount < character.spells.length) {
+                return new HttpException(`A classe ${character.class} possui mais magias do que deveria. esperava ${spellsAmount} e encontrou ${character.spells.length}`, HttpStatus.BAD_REQUEST);
+            } else if (spellsAmount > character.spells.length) {
+                return new HttpException(`A classe ${character.class} possui menos magias do que deveria. esperava ${spellsAmount} e encontrou ${character.spells.length}`, HttpStatus.BAD_REQUEST);
+            }
+
+            for (let spellItem of character.spells) {
+
+                const index = spells.results.findIndex((el: any) => {
+                    return el.index === spellItem;
+                })
+
+                if (spells.results[index].level > character.level) {
+                    return new HttpException(`A classe ${character.class} de nível ${character.level} não pode ter a magia ${spells.results[index].index} de nível ${spells.results[index].level}`, HttpStatus.BAD_REQUEST)
+                }
+            }
+        }
 
 
 

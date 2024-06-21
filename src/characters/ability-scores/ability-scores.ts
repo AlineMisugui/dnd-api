@@ -1,0 +1,1 @@
+export const abilityScores = ['cha', 'con', 'dex', 'int', 'str', 'wis']

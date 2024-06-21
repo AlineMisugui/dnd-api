@@ -11,8 +11,8 @@ export class CreateCharacterDto {
     @IsNotEmpty()
     alignment: string;
 
-    @IsObject()
-    abilityScore: AbilityScoreDto;
+    @IsArray()
+    abilityScore: AbilityScoreDto[];
 
     @IsString()
     @IsNotEmpty()
@@ -37,5 +37,5 @@ export class CreateCharacterDto {
 
     @IsArray()
     @IsOptional()
-    spells: string[];
+    spells?: string[];
 }
