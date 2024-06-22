@@ -12,7 +12,7 @@ import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    // MongooseModule.forRoot('mongodb://root:example@mongo:27017/dnd-api?authSource=admin'),
+    //MongooseModule.forRoot('mongodb://root:example@mongo:27017/dnd-api?authSource=admin'),
     MongooseModule.forRoot('mongodb://0.0.0.0/books-nest'),
     BooksModule,
     ProductsModule,
