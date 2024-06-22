@@ -1,6 +1,6 @@
 export const mainModifiers = {
     "bard": 'cha',
-    "clerig": 'wis',
+    "cleric": 'wis',
     "warlock": 'cha',
     "wizard": 'int',
     "paladin": 'cha',
