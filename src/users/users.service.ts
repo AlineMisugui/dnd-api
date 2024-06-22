@@ -96,3 +96,5 @@ export class UsersService {
     return result as UserWithoutPassword;
   }
 }
+
+}
