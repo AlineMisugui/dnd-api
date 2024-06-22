@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Character, Equipament } from './schema/character.schema';
 import { Model } from 'mongoose';
-import { CreateCharacterDto } from './dtos/create-character.dto';
-import { Equipment } from './class/equipment.class';
-import { EquipmentChoice } from './class/equipment-choice.class';
-import { mainModifiers } from './main-modifiers/main-modifiers';
 import { abilityScores } from './ability-scores/ability-scores';
+import { EquipmentChoice } from './class/equipment-choice.class';
+import { Equipment } from './class/equipment.class';
+import { CreateCharacterDto } from './dtos/create-character.dto';
+import { mainModifiers } from './main-modifiers/main-modifiers';
+import { Character } from './schema/character.schema';
 const fs = require('fs');
 
 @Injectable()
