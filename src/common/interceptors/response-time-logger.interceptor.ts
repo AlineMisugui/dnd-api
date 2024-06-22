@@ -6,8 +6,8 @@ import {
 } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import { CreateResponseTimeLoggerDto } from "src/response-time-logger/dto/create-response-time-logger.dto";
-import { ResponseTimeLoggerService } from "src/response-time-logger/response-time-logger.service";
+import { CreateResponseTimeLoggerDto } from "../../response-time-logger/dto/create-response-time-logger.dto";
+import { ResponseTimeLoggerService } from "../../response-time-logger/response-time-logger.service";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {

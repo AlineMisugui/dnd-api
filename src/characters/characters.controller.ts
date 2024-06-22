@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UseFilters } from '@nestjs/common';
-import { HttpExceptionFilter } from 'src/common/exception-filter/http-exception.filter';
+import { HttpExceptionFilter } from '../common/exception-filter/http-exception.filter';
 import { CharactersService } from './characters.service';
 import { CreateCharacterDto } from './dtos/create-character.dto';
 

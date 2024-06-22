@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { User, UserDocument, UserWithoutPassword } from './user.schema';
-import { NotFoundException } from 'src/common/exceptions/not-found.exception';
+import { NotFoundException } from '../common/exceptions/not-found.exception';
 
 @Injectable()
 export class UsersService {
