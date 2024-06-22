@@ -1,12 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
-import { BooksModule } from './books/books.module';
+import { CharactersModule } from './characters/characters.module';
 import { LoggingInterceptor } from './common/interceptors/response-time-logger.interceptor';
-import { LoggerMiddleware } from './common/middlewares/logger.middleware';
-import { ProductPriceMiddleware } from './products/middlewares/productPrice.middleware';
-import { ProductsModule } from './products/products.module';
 import { ResponseTimeLoggerModule } from './response-time-logger/response-time-logger.module';
 import { UsersModule } from './users/users.module';
 
@@ -14,11 +11,10 @@ import { UsersModule } from './users/users.module';
   imports: [
     //MongooseModule.forRoot('mongodb://root:example@mongo:27017/dnd-api?authSource=admin'),
     MongooseModule.forRoot('mongodb://0.0.0.0/books-nest'),
-    BooksModule,
-    ProductsModule,
-    //AuthModule,
+    AuthModule,
     UsersModule,
-    ResponseTimeLoggerModule,
+    CharactersModule,
+    ResponseTimeLoggerModule
   ],
   controllers: [],
   providers: [
@@ -29,14 +25,6 @@ import { UsersModule } from './users/users.module';
   ],
 })
 
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes('cats');
+export class AppModule {
 
-    consumer
-      .apply(ProductPriceMiddleware)
-      .forRoutes({ path: 'products', method: RequestMethod.POST })
-  }
 }

@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { CreateResponseTimeLoggerDto } from './dto/create-response-time-logger.dto';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ResponseTimeLogger } from './schemas/response-time-logger.schema';
 import { Model } from 'mongoose';
 import { NotFoundException } from 'src/common/exceptions/not-found.exception';
+import { CreateResponseTimeLoggerDto } from './dto/create-response-time-logger.dto';
+import { ResponseTimeLogger } from './schemas/response-time-logger.schema';
 
 @Injectable()
 export class ResponseTimeLoggerService {
