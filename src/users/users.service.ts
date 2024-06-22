@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { User, UserDocument, UserWithoutPassword } from './user.schema';
+import { NotFoundException } from 'src/common/exceptions/not-found.exception';
 
 @Injectable()
 export class UsersService {
@@ -44,6 +45,14 @@ export class UsersService {
   async findOne(username: string): Promise<UserWithoutPassword | undefined> {
     const user = await this.userModel.findOne({ username }).exec();
     return user ? this.omitPassword(user.toObject()) : undefined;
+  }
+
+  async loginFind(username: string): Promise<User> {
+    const user = await this.userModel.findOne({ username: username })
+    if(!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<UserWithoutPassword | undefined> {
