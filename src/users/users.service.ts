@@ -80,12 +80,14 @@ export class UsersService {
     return this.omitPassword(updatedUser?.toObject());
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string): Promise<{ message: string }> {
     const user = await this.userModel.findByIdAndDelete(id).exec();
 
     if (!user) {
       throw new BadRequestException('User not found');
     }
+    
+    return { message: 'User has been removed' };
   }
 
   private omitPassword(user: User | undefined): UserWithoutPassword | undefined {
@@ -96,4 +98,3 @@ export class UsersService {
     return result as UserWithoutPassword;
   }
 }
-
