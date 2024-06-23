@@ -10,7 +10,6 @@ import { Character } from './schema/character.schema';
 import { alignments } from './alignments/alignments';
 import { AbilityScoreDto } from './dtos/ability-score.dto';
 import { races } from './races/races';
-import { race } from 'rxjs';
 import { characterClass } from './character-class/character-class';
 import { EquipamentDto } from './dtos/equipament.dto';
 const fs = require('fs');
@@ -21,8 +20,6 @@ export class CharactersService {
 
     async createCharacter(character: CreateCharacterDto) {
         try {
-            console.log(character)
-
             const exists = await this.characterModel.findOne({ name: character.name });
 
             if (exists) {
@@ -151,18 +148,13 @@ export class CharactersService {
                 equipmentChoices = equipmentChoices.concat(startEquipmentChoice);
             }
 
-            for (let a of character.equipament) {
-                console.log(a);
-            }
-            console.log(classCharacter.starting_equipment_options.length)
-            console.log(character.equipament.length)
             let maxItens = classCharacter.starting_equipment_options.length + startEquipments.length;
             if (character.equipament.length === maxItens) {
                 for (let item of character.equipament) {
                     let validatedEquipments = new Array<Number>;
                     for (let [index, startEquipment] of equipmentChoices.entries()) {
                         for (let elItem of startEquipment.choices) {
-                            const index = item.findIndex((el) => { return el.name === elItem.index });
+                            const index = item.findIndex((el) => { return el.name === elItem.index && el.amount === elItem.count });
                             if (index !== -1) {
                                 if (!validatedEquipments.includes(index)) {
                                     validatedEquipments.push(index);
@@ -236,10 +228,6 @@ export class CharactersService {
             return await this.characterModel.create(character);
         } catch (error) {
             if (error instanceof HttpException) {
-                console.log('------------------------------------')
-                console.log(character)
-                console.log('------------------------------------')
-
                 throw error;
             }
             console.log(error)
@@ -278,8 +266,7 @@ export class CharactersService {
 
             character.race = races[Math.floor(Math.random() * races.length)];
 
-            // character.class = characterClass[Math.floor(Math.random() * characterClass.length)];
-            character.class = 'fighter'
+            character.class = characterClass[Math.floor(Math.random() * characterClass.length)];
 
             character.level = Math.floor((Math.random() * 20) + 1)
 
@@ -352,7 +339,6 @@ export class CharactersService {
                     const item = new Array<EquipmentChoice>();
                     item.push(choice)
                     equipmentChoices.push(item)
-                    console.log(equipmentChoices.length)
                 }
             }
 

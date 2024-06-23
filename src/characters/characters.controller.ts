@@ -16,7 +16,6 @@ export class CharactersController {
 
     @Post('random')
     async randomCharacter(@Body() characterName: CharacterNameDto) {
-        console.log('entrou')
         return await this.characterService.randomCharacter(characterName.name);
     }
 }
