@@ -401,5 +401,3 @@ export class CharactersService {
         }
     }
 }
-
-//corrigir martial weapon de figter

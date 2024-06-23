@@ -8,7 +8,6 @@ import { CharacterNameDto } from './dtos/character-name.dto';
 @UseFilters(new HttpExceptionFilter())
 export class CharactersController {
     constructor(private readonly characterService: CharactersService) { }
-
     @Post('create')
     async createCharacter(@Body() character: CreateCharacterDto) {
         return await this.characterService.createCharacter(character);
