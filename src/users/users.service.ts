@@ -6,6 +6,7 @@ import { CreateUserDto } from "./dto/createUser.dto";
 import { UpdateUserDto } from "./dto/updateUser.dto";
 import { User, UserDocument, UserWithoutPassword } from "./user.schema";
 import { NotFoundException } from "../common/exceptions/not-found.exception";
+import { ConflictException } from "../common/exceptions/conflict.exception";
 
 @Injectable()
 export class UsersService {
@@ -20,7 +21,7 @@ export class UsersService {
     });
 
     if (existingUser) {
-      throw new BadRequestException("User already exists");
+      throw new ConflictException("User already exists");
     }
 
     const salt = await bcrypt.genSalt();
@@ -79,7 +80,7 @@ export class UsersService {
     });
 
     if (existingUser) {
-      throw new BadRequestException("Username or email already in use");
+      throw new ConflictException("Username or email already in use");
     }
 
     if (updateUserDto.password) {
@@ -96,7 +97,7 @@ export class UsersService {
   async remove(id: string): Promise<{ message: string }> {
     const user = await this.userModel.findByIdAndDelete(id).exec();
     if (!user) {
-      throw new BadRequestException("User not found");
+      throw new NotFoundException("User not found");
     }
     return { message: "User has been removed" };
   }

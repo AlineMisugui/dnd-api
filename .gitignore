@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-# compiled output
-/dist
-/node_modules
-/.env
-=======
 # Logs
 logs
 *.log
@@ -135,4 +129,3 @@ dist
 .yarn/install-state.gz
 .pnp.*
 .vercel
->>>>>>> cdc50c6b899b793adb1fe7b2613a145f2c34f70e

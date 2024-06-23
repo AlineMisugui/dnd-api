@@ -1,0 +1,1392 @@
+{
+	"info": {
+		"_postman_id": "11eedbbd-774a-44d6-82ca-696d4fa810d7",
+		"name": "D&D API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30334910",
+		"_collection_link": "https://lexpteam.postman.co/workspace/D%26D-API~21f55d0d-da56-4bf0-be10-118304ac8b6f/collection/30334910-11eedbbd-774a-44d6-82ca-696d4fa810d7?action=share&source=collection_link&creator=30334910"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.globals.set(\"user_id\", response._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Drizzt\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"drizzt@example.com\",\r\n    \"name\": \"Drizzt Do'Urden\"\r\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Drizzt\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"drizzt@example.com\",\r\n    \"name\": \"Drizzt Do'Urden\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "116"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"74-uGKCsctiHkq+a2NtAC0H99ZY0DI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 16:26:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"username\": \"Drizzt\",\n    \"email\": \"drizzt@example.com\",\n    \"name\": \"Drizzt Do'Urden\",\n    \"_id\": \"6676fb4714af654c839c9d2d\",\n    \"__v\": 0\n}"
+						},
+						{
+							"name": "User already exists",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Drizzt\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"drizzt@example.com\",\r\n    \"name\": \"Drizzt Do'Urden\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "72"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"48-YdQ+cv85vFIC4Zkw+XttsGus0wo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 16:34:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User already exists\",\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "253"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fd-JyDDfF27Jn39hW4jg6R/K8oyUno\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 16:28:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"6676fb4714af654c839c9d2d\",\n        \"username\": \"Drizzt\",\n        \"email\": \"drizzt@example.com\",\n        \"name\": \"Drizzt Do'Urden\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6676fbb714af654c839c9d32\",\n        \"username\": \"Halaster\",\n        \"email\": \"halasterthemadmage@example.com\",\n        \"name\": \"Halaster Blackcloak\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get user by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/{{user_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users/6676fb4714af654c839c9d2d",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"6676fb4714af654c839c9d2d"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "116"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"74-pXour3WV+P4wUVRd+Zw9ingpPpw\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 16:29:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6676fb4714af654c839c9d2d\",\n    \"username\": \"Drizzt\",\n    \"email\": \"drizzt@example.com\",\n    \"name\": \"Drizzt Do'Urden\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Mad Mage\",\r\n    \"password\": \"321654\"\r\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/{{user_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Mad Mage\",\r\n    \"password\": \"321654\"\r\n} ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/6676fbb714af654c839c9d32",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"6676fbb714af654c839c9d32"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "134"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"86-M7MVR9/zCN796M1m526+0qqDEUc\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 16:36:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"6676fbb714af654c839c9d32\",\n    \"username\": \"Mad Mage\",\n    \"email\": \"halasterthemadmage@example.com\",\n    \"name\": \"Halaster Blackcloak\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/{{user_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/users/6676fbb714af654c839c9d32",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"6676fbb714af654c839c9d32"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "35"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"23-pWMJKCmlbcWz1DiArVRBGg2+AtU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 16:40:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User has been removed\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Character",
+			"item": [
+				{
+					"name": "Create character",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.globals.set(\"character_id\", response._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Cavalo Branco do Nordeste\",\r\n    \"alignment\": \"chaotic-neutral\",\r\n    \"abilityScore\": [\r\n        {\r\n            \"index\": \"cha\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"con\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"dex\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"int\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"str\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"wis\",\r\n            \"value\": 11\r\n        }\r\n    ],\r\n    \"race\": \"human\",\r\n    \"class\": \"warlock\",\r\n    \"level\": 4,\r\n    \"feats\": [\r\n        \"grappler\"\r\n    ],\r\n    \"equipament\": [\r\n        [\r\n            {\r\n                \"name\": \"crossbow-light\",\r\n                \"amount\": 1\r\n            },\r\n            {\r\n                \"name\": \"crossbow-bolt\",\r\n                \"amount\": 20\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"arcane-foci\",\r\n                \"amount\": 1\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"dungeoneers-pack\",\r\n                \"amount\": 1\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"simple-weapons\",\r\n                \"amount\": 1\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"dagger\",\r\n                \"amount\": 2\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"leather-armor\",\r\n                \"amount\": 1\r\n            }\r\n        ]\r\n    ],\r\n    \"spells\": [\r\n        \"chill-touch\",\r\n        \"charm-person\",\r\n        \"mage-hand\",\r\n        \"true-strike\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/characters/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"characters",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Cavalo Branco do Nordeste\",\r\n    \"alignment\": \"chaotic-neutral\",\r\n    \"abilityScore\": [\r\n        {\r\n            \"index\": \"cha\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"con\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"dex\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"int\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"str\",\r\n            \"value\": 11\r\n        },\r\n        {\r\n            \"index\": \"wis\",\r\n            \"value\": 11\r\n        }\r\n    ],\r\n    \"race\": \"human\",\r\n    \"class\": \"warlock\",\r\n    \"level\": 4,\r\n    \"feats\": [\r\n        \"grappler\"\r\n    ],\r\n    \"equipament\": [\r\n        [\r\n            {\r\n                \"name\": \"crossbow-light\",\r\n                \"amount\": 1\r\n            },\r\n            {\r\n                \"name\": \"crossbow-bolt\",\r\n                \"amount\": 20\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"arcane-foci\",\r\n                \"amount\": 1\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"dungeoneers-pack\",\r\n                \"amount\": 1\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"simple-weapons\",\r\n                \"amount\": 1\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"dagger\",\r\n                \"amount\": 2\r\n            }\r\n        ],\r\n        [\r\n            {\r\n                \"name\": \"leather-armor\",\r\n                \"amount\": 1\r\n            }\r\n        ]\r\n    ],\r\n    \"spells\": [\r\n        \"chill-touch\",\r\n        \"charm-person\",\r\n        \"mage-hand\",\r\n        \"true-strike\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/characters/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"characters",
+										"create"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "692"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b4-ZG6ieyzIpsk3zgp4hMCA+Sq02/c\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 19:13:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"Cavalo Branco do Nordeste\",\n    \"alignment\": \"chaotic-neutral\",\n    \"abilityScore\": [\n        {\n            \"index\": \"cha\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"con\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"dex\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"int\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"str\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"wis\",\n            \"value\": 11\n        }\n    ],\n    \"race\": \"human\",\n    \"class\": \"warlock\",\n    \"level\": 4,\n    \"feats\": [\n        \"grappler\"\n    ],\n    \"equipament\": [\n        [\n            {\n                \"name\": \"crossbow-light\",\n                \"amount\": 1\n            },\n            {\n                \"name\": \"crossbow-bolt\",\n                \"amount\": 20\n            }\n        ],\n        [\n            {\n                \"name\": \"arcane-foci\",\n                \"amount\": 1\n            }\n        ],\n        [\n            {\n                \"name\": \"dungeoneers-pack\",\n                \"amount\": 1\n            }\n        ],\n        [\n            {\n                \"name\": \"simple-weapons\",\n                \"amount\": 1\n            }\n        ],\n        [\n            {\n                \"name\": \"dagger\",\n                \"amount\": 2\n            }\n        ],\n        [\n            {\n                \"name\": \"leather-armor\",\n                \"amount\": 1\n            }\n        ]\n    ],\n    \"spells\": [\n        \"chill-touch\",\n        \"charm-person\",\n        \"mage-hand\",\n        \"true-strike\"\n    ],\n    \"_id\": \"6677225149f31584aa70e852\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Get characters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/characters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"characters"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/characters",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"characters"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "694"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b6-jeN6rDfXctSF8gSqB7Sw4q5CPZ8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 19:20:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"66772417910a95a5c5b5f9ca\",\n        \"name\": \"Cavalo Branco do Nordeste\",\n        \"alignment\": \"chaotic-neutral\",\n        \"abilityScore\": [\n            {\n                \"index\": \"cha\",\n                \"value\": 11\n            },\n            {\n                \"index\": \"con\",\n                \"value\": 11\n            },\n            {\n                \"index\": \"dex\",\n                \"value\": 11\n            },\n            {\n                \"index\": \"int\",\n                \"value\": 11\n            },\n            {\n                \"index\": \"str\",\n                \"value\": 11\n            },\n            {\n                \"index\": \"wis\",\n                \"value\": 11\n            }\n        ],\n        \"race\": \"human\",\n        \"class\": \"warlock\",\n        \"level\": 4,\n        \"feats\": [\n            \"grappler\"\n        ],\n        \"equipament\": [\n            [\n                {\n                    \"name\": \"crossbow-light\",\n                    \"amount\": 1\n                },\n                {\n                    \"name\": \"crossbow-bolt\",\n                    \"amount\": 20\n                }\n            ],\n            [\n                {\n                    \"name\": \"arcane-foci\",\n                    \"amount\": 1\n                }\n            ],\n            [\n                {\n                    \"name\": \"dungeoneers-pack\",\n                    \"amount\": 1\n                }\n            ],\n            [\n                {\n                    \"name\": \"simple-weapons\",\n                    \"amount\": 1\n                }\n            ],\n            [\n                {\n                    \"name\": \"dagger\",\n                    \"amount\": 2\n                }\n            ],\n            [\n                {\n                    \"name\": \"leather-armor\",\n                    \"amount\": 1\n                }\n            ]\n        ],\n        \"spells\": [\n            \"chill-touch\",\n            \"charm-person\",\n            \"mage-hand\",\n            \"true-strike\"\n        ],\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get character by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/characters/{{character_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"characters",
+								"{{character_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/characters/{{character_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"characters",
+										"{{character_id}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "692"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b4-3CDQxt6NNbY1yfNtgRSMzw97lJU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 19:21:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"66772417910a95a5c5b5f9ca\",\n    \"name\": \"Cavalo Branco do Nordeste\",\n    \"alignment\": \"chaotic-neutral\",\n    \"abilityScore\": [\n        {\n            \"index\": \"cha\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"con\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"dex\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"int\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"str\",\n            \"value\": 11\n        },\n        {\n            \"index\": \"wis\",\n            \"value\": 11\n        }\n    ],\n    \"race\": \"human\",\n    \"class\": \"warlock\",\n    \"level\": 4,\n    \"feats\": [\n        \"grappler\"\n    ],\n    \"equipament\": [\n        [\n            {\n                \"name\": \"crossbow-light\",\n                \"amount\": 1\n            },\n            {\n                \"name\": \"crossbow-bolt\",\n                \"amount\": 20\n            }\n        ],\n        [\n            {\n                \"name\": \"arcane-foci\",\n                \"amount\": 1\n            }\n        ],\n        [\n            {\n                \"name\": \"dungeoneers-pack\",\n                \"amount\": 1\n            }\n        ],\n        [\n            {\n                \"name\": \"simple-weapons\",\n                \"amount\": 1\n            }\n        ],\n        [\n            {\n                \"name\": \"dagger\",\n                \"amount\": 2\n            }\n        ],\n        [\n            {\n                \"name\": \"leather-armor\",\n                \"amount\": 1\n            }\n        ]\n    ],\n    \"spells\": [\n        \"chill-touch\",\n        \"charm-person\",\n        \"mage-hand\",\n        \"true-strike\"\n    ],\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete character",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/characters/{{character_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"characters",
+								"{{character_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/characters/{{character_id}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"characters",
+										"{{character_id}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "38"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"26-fgR5yLHQ1Hpp6zDESHaY9wJreYE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2024 19:25:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"acknowledged\": true,\n    \"deletedCount\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Generate random character",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jungkook alado das cavernas do Himalaia\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/characters/random",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"characters",
+								"random"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Jungkook alado das cavernas do Himalaia\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/characters/random",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"characters",
+										"random"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "864"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"360-ec9FgrdI3498QpDf6FwCV92gSGo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 23 Jun 2024 16:28:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"name\": \"Jungkook alado das cavernas do Himalaia\",\n    \"alignment\": \"lawful-good\",\n    \"abilityScore\": [\n        {\n            \"index\": \"cha\",\n            \"value\": 20\n        },\n        {\n            \"index\": \"con\",\n            \"value\": 8\n        },\n        {\n            \"index\": \"dex\",\n            \"value\": 18\n        },\n        {\n            \"index\": \"int\",\n            \"value\": 18\n        },\n        {\n            \"index\": \"str\",\n            \"value\": 19\n        },\n        {\n            \"index\": \"wis\",\n            \"value\": 8\n        }\n    ],\n    \"race\": \"elf\",\n    \"class\": \"druid\",\n    \"level\": 16,\n    \"feats\": [\n        \"actor\",\n        \"resilient\",\n        \"dungeon-delver\",\n        \"weapon-master\"\n    ],\n    \"equipament\": [\n        [\n            {\n                \"amount\": 1,\n                \"name\": \"simple-weapons\"\n            }\n        ],\n        [\n            {\n                \"amount\": 1,\n                \"name\": \"scimitar\"\n            }\n        ],\n        [\n            {\n                \"amount\": 1,\n                \"name\": \"druidic-foci\"\n            }\n        ],\n        [\n            {\n                \"amount\": 1,\n                \"name\": \"leather-armor\"\n            }\n        ],\n        [\n            {\n                \"amount\": 1,\n                \"name\": \"explorers-pack\"\n            }\n        ]\n    ],\n    \"spells\": [\n        \"geas\",\n        \"stone-shape\",\n        \"commune-with-nature\",\n        \"protection-from-energy\",\n        \"hallucinatory-terrain\",\n        \"speak-with-plants\",\n        \"poison-spray\",\n        \"resistance\",\n        \"speak-with-plants\",\n        \"wall-of-fire\",\n        \"reincarnate\",\n        \"lesser-restoration\",\n        \"control-water\",\n        \"planar-binding\",\n        \"foresight\"\n    ],\n    \"_id\": \"66784d458bf7b3f05015b21b\",\n    \"__v\": 0\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Response Time Logger",
+			"item": [
+				{
+					"name": "Get all logs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.globals.set(\"log_id\", response[0]._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/response-time-logger",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"response-time-logger"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/response-time-logger",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"response-time-logger"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2924"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b6c-QZ/YTm0Djt6Ekjn4i3TRWIPBzfY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 16 Jun 2024 19:57:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"666f3916b0b3120b921121bc\",\n        \"method\": \"GET\",\n        \"route\": \"/books\",\n        \"responseTimeMiliseconds\": 12,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:12:22.670Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f396bb0b3120b921121bf\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger\",\n        \"responseTimeMiliseconds\": 5,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:13:47.459Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f3ab6c3c88499b60ffd6c\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bc\",\n        \"responseTimeMiliseconds\": 12,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:19:18.061Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f3f2d2f22bf7f6ccbf16b\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bb\",\n        \"responseTimeMiliseconds\": 9,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:38:21.909Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f3f332f22bf7f6ccbf16e\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bc\",\n        \"responseTimeMiliseconds\": 3,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:38:27.110Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f41d62f22bf7f6ccbf171\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bc\",\n        \"responseTimeMiliseconds\": 3,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:49:42.755Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f41db2f22bf7f6ccbf174\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bb\",\n        \"responseTimeMiliseconds\": 2,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:49:47.395Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f41de2f22bf7f6ccbf177\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bc\",\n        \"responseTimeMiliseconds\": 2,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:49:50.803Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f41ef2f22bf7f6ccbf17a\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bc\",\n        \"responseTimeMiliseconds\": 3,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:50:07.414Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f41fd2f22bf7f6ccbf17d\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bb\",\n        \"responseTimeMiliseconds\": 3,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:50:21.413Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f42132f22bf7f6ccbf180\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bb\",\n        \"responseTimeMiliseconds\": 2,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:50:43.195Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f42272ed3476b187f2883\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bb\",\n        \"responseTimeMiliseconds\": 5,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:51:03.057Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f42d72ed3476b187f2885\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bb\",\n        \"responseTimeMiliseconds\": 1,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:53:59.160Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f432a4ac4ea009fcdfcb8\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bc\",\n        \"responseTimeMiliseconds\": 9,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:55:22.499Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"666f43468856d14910951370\",\n        \"method\": \"GET\",\n        \"route\": \"/response-time-logger/666f3916b0b3120b921121bc\",\n        \"responseTimeMiliseconds\": 14,\n        \"statusCode\": 200,\n        \"createdAt\": \"2024-06-16T19:55:50.382Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get log by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/response-time-logger/{{log_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"response-time-logger",
+								"{{log_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/response-time-logger/666f3916b0b3120b921121bc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"response-time-logger",
+										"666f3916b0b3120b921121bc"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "159"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9f-yL3QH3YdcvoAaFHPviNdvdWYm5w\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 16 Jun 2024 19:38:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"666f3916b0b3120b921121bc\",\n    \"method\": \"GET\",\n    \"route\": \"/books\",\n    \"responseTimeMiliseconds\": 12,\n    \"statusCode\": 200,\n    \"createdAt\": \"2024-06-16T19:12:22.670Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Clear all logs",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/response-time-logger/clear",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"response-time-logger",
+								"clear"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/response-time-logger/clear",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"response-time-logger",
+										"clear"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "39"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"27-zPKt/lduoHzVcBz3xKuFMbjyCe8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 16 Jun 2024 19:59:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"acknowledged\": true,\n    \"deletedCount\": 16\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete log by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/response-time-logger/{{log_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"response-time-logger",
+								"{{log_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/response-time-logger/666f446db46f971e2291c241",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"response-time-logger",
+										"666f446db46f971e2291c241"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "38"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"26-fgR5yLHQ1Hpp6zDESHaY9wJreYE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 16 Jun 2024 20:01:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"acknowledged\": true,\n    \"deletedCount\": 1\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.globals.set(\"token\", response.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Drizzt\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
