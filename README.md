@@ -8,11 +8,11 @@ $ docker-compose up
 # Documentation 
 [Click here to access the full documentation.](https://documenter.getpostman.com/view/30334910/2sA3XWdycs) 
 
+In the documentation above: Click on "Run in Postman" > import collection > run the requests!
+
+or
+
 D&D API.postman_collection.json -> to import collection
-
-or 
-
-Click on "Run in Postman" > import collection > run the requests!
 
 ## Order to run requests on POSTMAN
 
