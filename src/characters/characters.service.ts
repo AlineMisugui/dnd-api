@@ -7,6 +7,7 @@ import { Equipment } from './class/equipment.class';
 import { CreateCharacterDto } from './dtos/create-character.dto';
 import { mainModifiers } from './main-modifiers/main-modifiers';
 import { Character } from './schema/character.schema';
+import { NotFoundException } from '../common/exceptions/not-found.exception';
 const fs = require('fs');
 
 @Injectable()
@@ -228,5 +229,22 @@ export class CharactersService {
             }
             throw new HttpException('bad request', HttpStatus.BAD_REQUEST);
         }
+    }
+
+    async getCharacters() {
+        return await this.characterModel.find();
+    }
+
+    async getCharacterById(id: string) {
+        const character = await this.characterModel.findOne({ _id: id });
+        if (!character) {
+            throw new NotFoundException('Character not found');
+        }
+        return character;
+    }
+
+    async deleteCharacter(id: string) {
+        await this.getCharacterById(id);
+        return await this.characterModel.deleteOne({ _id: id });
     }
 }
