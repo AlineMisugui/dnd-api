@@ -6,7 +6,7 @@ $ docker-compose up
 ```
 
 # Documentation 
-[Click here to access the full documentation.](https://documenter.getpostman.com/view/30334910/2sA3XWdycs)
+[Click here to access the full documentation.](https://documenter.getpostman.com/view/30334910/2sA3XWdycs) 
 
 ## Order to run requests on POSTMAN
 
